@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -100,7 +101,7 @@ public class newServlet {
         if (result <= 0) {
             return Response.status(500).build();
         } else {
-            return Response.ok().build();
+            return Response.ok("ProductID: "+id+ " record is deleted successfully from product").build();
         }
         // return Response.entity(getResult("SELECT * FROM product")).build();
 
@@ -164,8 +165,8 @@ public class newServlet {
 //    }
 
     public String getResult(String query, String... parameter) {
-        StringBuilder sb = new StringBuilder();
-        JSONObject obj = new JSONObject();
+     StringBuilder sb = new StringBuilder();
+     JsonObject obj = null;
 
         try (Connection conn = DBConnect.getConnection()) {
             PreparedStatement pst = conn.prepareStatement(query);
@@ -175,11 +176,12 @@ public class newServlet {
             System.out.println(parameter.length);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                obj.put("productID", rs.getInt("productID"));
-                obj.put("name", rs.getString("name"));
-                obj.put("description", rs.getString("description"));
-                obj.put("quantity", rs.getInt("quantity"));
-                sb.append(obj.toJSONString());
+                obj =  Json.createObjectBuilder()
+                .add("productID", rs.getInt("productID"))
+                .add("name", rs.getString("name"))
+                .add("description", rs.getString("description"))
+                .add("quantity", rs.getInt("quantity")).build();
+               sb.append(obj.toString());
             }
 
         } catch (SQLException ex) {
