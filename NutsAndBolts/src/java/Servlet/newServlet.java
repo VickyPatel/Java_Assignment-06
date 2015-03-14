@@ -6,25 +6,20 @@
 package Servlet;
 
 import Connection.DBConnect;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.JsonObject;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.json.simple.JSONObject;
@@ -45,24 +40,70 @@ public class newServlet {
 
     }
 
-   
+    @GET
+    @Path("{id}")
+    @Produces("application/json")
+    public Response getById(@PathParam("id") String id) {
+
+        return Response.ok(getResult("SELECT * FROM product WHERE productID=?", String.valueOf(id))).build();
+
+        // return Response.entity(getResult("SELECT * FROM product")).build();
+    }
+
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public Response add(JsonObject json){
-        
-        String  name = json.getString("name");
+    public Response add(JsonObject json) {
+
+        String name = json.getString("name");
         String description = json.getString("description");
         String quantity = String.valueOf(json.getInt("quantity"));
-        
-        System.out.println(name+'\t'+description+'\t'+quantity);
-        
+
+        System.out.println(name + '\t' + description + '\t' + quantity);
+
         int result = doUpdate("INSERT INTO product (name,description,quantity) VALUES (?,?,?)", name, description, quantity);
-        if(result <= 0){
+        if (result <= 0) {
             return Response.status(500).build();
-        }else{
+        } else {
             return Response.ok(json).build();
         }
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response updateData(@PathParam("id") String id, JsonObject json) {
+
+        String name = json.getString("name");
+        String description = json.getString("description");
+        String quantity = String.valueOf(json.getInt("quantity"));
+
+        System.out.println(name + '\t' + description + '\t' + quantity +'\t'+ id);
+
+        int result = doUpdate("UPDATE product SET name=?,description=?,quantity=? where productID=?", name, description, quantity, String.valueOf(id));
+        if (result <= 0) {
+            return Response.status(500).build();
+        } else {
+            return Response.ok(json).build();
+        }
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Produces("application/json")
+
+    public Response deleteById(@PathParam("id") String id) {
+
+        int result = doUpdate("DELETE FROM product where productID=? ", String.valueOf(id));
+
+        if (result <= 0) {
+            return Response.status(500).build();
+        } else {
+            return Response.ok().build();
+        }
+        // return Response.entity(getResult("SELECT * FROM product")).build();
+
     }
 //    
 //
@@ -121,6 +162,7 @@ public class newServlet {
 //            Logger.getLogger(newServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+
     public String getResult(String query, String... parameter) {
         StringBuilder sb = new StringBuilder();
         JSONObject obj = new JSONObject();
