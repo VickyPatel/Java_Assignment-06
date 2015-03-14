@@ -53,7 +53,7 @@ public class newServlet {
         
         String  name = json.getString("name");
         String description = json.getString("description");
-        String quantity = json.getString("quantity");
+        String quantity = String.valueOf(json.getInt("quantity"));
         
         System.out.println(name+'\t'+description+'\t'+quantity);
         
