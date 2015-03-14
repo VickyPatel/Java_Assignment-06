@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,7 +45,25 @@ public class newServlet {
 
     }
 
- 
+   
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response add(JsonObject json){
+        
+        String  name = json.getString("name");
+        String description = json.getString("description");
+        String quantity = json.getString("quantity");
+        
+        System.out.println(name+'\t'+description+'\t'+quantity);
+        
+        int result = doUpdate("INSERT INTO product (name,description,quantity) VALUES (?,?,?)", name, description, quantity);
+        if(result <= 0){
+            return Response.status(500).build();
+        }else{
+            return Response.ok(json).build();
+        }
+    }
 //    
 //
 //    @Override
