@@ -58,6 +58,15 @@ public class Product {
     public Product() {
       
     }
+    
+    public  Product (JsonObject json){
+    
+        this.productID = json.getInt("productID");
+        this.name = json.getString("name");
+        this.description = json.getString("description");
+        this.quantity = json.getInt("quantity");
+        
+    }
                                                   
     public Product(int productID, String name, String description, int quantity) {
         this.productID = productID;
