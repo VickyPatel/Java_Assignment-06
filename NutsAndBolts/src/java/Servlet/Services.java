@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
  * @author c0633648
  */
 @Path("/products")
-public class newServlet {
+public class Services {
 
     @GET
     @Produces("application/json")
@@ -106,63 +106,7 @@ public class newServlet {
         // return Response.entity(getResult("SELECT * FROM product")).build();
 
     }
-//    
-//
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-//        Set<String> key = request.getParameterMap().keySet();
-//        try (PrintWriter out = response.getWriter()) {
-//            if (key.contains("name") && key.contains("description") && key.contains("quantity")) {
-//                String name = request.getParameter("name");
-//                String desc = request.getParameter("description");
-//                String quant = request.getParameter("quantity");
-//
-//                doUpdate("INSERT INTO product (name,description,quantity) VALUES (?,?,?)", name, desc, quant);
-//                out.println("http://localhost:8080/NutsAndBolts/products?id="+doUpdate("SELECT LAST_INSERT_ID()"));
-//            } else {
-//                response.setStatus(500);
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(newServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//
-//    @Override
-//    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
-//        Set<String> key = request.getParameterMap().keySet();
-//        try (PrintWriter out = response.getWriter()) {
-//            if (key.contains("productID") && key.contains("name") && key.contains("description") && key.contains("quantity")) {
-//                String id = request.getParameter("productID");
-//                String name = request.getParameter("name");
-//                String desc = request.getParameter("description");
-//                String quant = request.getParameter("quantity");
-//
-//                doUpdate("UPDATE product SET name=?,description=?,quantity=? where productID=? ", name, desc, quant, id);
-//                out.println("http://localhost:8080/NutsAndBolts/products?id=" + id);
-//            } else {
-//                response.setStatus(500);
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(newServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//
-//    @Override
-//    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
-//        Set<String> key = request.getParameterMap().keySet();
-//        try (PrintWriter out = response.getWriter()) {
-//            if (key.contains("productID")) {
-//                String id = request.getParameter("productID");
-//
-//                doUpdate("DELETE FROM product where productID=? ", id);
-//
-//            } else {
-//                response.setStatus(500);
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(newServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+
 
     public String getResult(String query, String... parameter) {
      StringBuilder sb = new StringBuilder();
@@ -200,7 +144,7 @@ public class newServlet {
             }
             change = pstmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(newServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
         return change;
     }
