@@ -43,7 +43,7 @@ public class ProductList {
 
             while (rs.next()) {
 
-                product.productID = rs.getInt("productID");
+                product.productId = rs.getInt("productId");
                 product.name = rs.getString("name");
                 product.description = rs.getString("description");
                 product.quantity = rs.getInt("quantity");
@@ -74,7 +74,7 @@ public class ProductList {
     
     public void add(Product product) throws Exception {
 
-        int data = doUpdate("INSERT INTO product (productID, name,description,quantity) VALUES (?,?,?,?)", String.valueOf(product.productID), product.name , product.description,String.valueOf(product.quantity));
+        int data = doUpdate("INSERT INTO product (productId, name,description,quantity) VALUES (?,?,?,?)", String.valueOf(product.productId), product.name , product.description,String.valueOf(product.quantity));
         
         if(data > 0){
             productList.add(product);
@@ -87,13 +87,13 @@ public class ProductList {
 
     public void remove(Product product) throws Exception {
      
-       remove(product.productID);
+       remove(product.productId);
 
     }
 
     public void remove(int id) throws Exception {
 
-       int data =  doUpdate("DELETE FROM product where productID=? ", String.valueOf(id));
+       int data =  doUpdate("DELETE FROM product where productId=? ", String.valueOf(id));
          if(data > 0){
            Product oldData = getByID(id);
            productList.remove(oldData);
@@ -105,7 +105,7 @@ public class ProductList {
     }
 
     public void set(int id, Product product) throws Exception {
-        int data = doUpdate("UPDATE product SET name=?,description=?,quantity=? where productID=?", product.name, product.description, String.valueOf(product.quantity), String.valueOf(product.productID));
+        int data = doUpdate("UPDATE product SET name=?,description=?,quantity=? where productId=?", product.name, product.description, String.valueOf(product.quantity), String.valueOf(product.productId));
 
          if(data > 0){
            Product oldData = getByID(id);
@@ -124,7 +124,7 @@ public class ProductList {
         
         for(Product product : productList){
              JsonObject json = Json.createObjectBuilder()
-                    .add("productId", product.productID)
+                    .add("productId", product.productId)
                     .add("name", product.name)
                     .add("description",  product.description)
                     .add("quantity", product.quantity)

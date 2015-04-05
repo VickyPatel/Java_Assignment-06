@@ -20,17 +20,17 @@ import javax.json.JsonObject;
 @Stateful
 public class Product {
     
-    public int productID;
+    public int productId;
     public String name;
     public String description;
     public int quantity;
 
     public int getProductID() {
-        return productID;
+        return productId;
     }
 
     public void setProductID(int productID) {
-        this.productID = productID;
+        this.productId = productID;
     }
 
     public String getName() {
@@ -63,7 +63,7 @@ public class Product {
     
     public  Product (JsonObject json){
     
-        this.productID = json.getInt("productID");
+        this.productId = json.getInt("productId");
         this.name = json.getString("name");
         this.description = json.getString("description");
         this.quantity = json.getInt("quantity");
@@ -71,7 +71,7 @@ public class Product {
     }
                                                   
     public Product(int productID, String name, String description, int quantity) {
-        this.productID = productID;
+        this.productId = productID;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
@@ -79,7 +79,7 @@ public class Product {
     
     public  void consumeJSON(JsonObject json){
     
-        this.productID = json.getInt("productID");
+        this.productId = json.getInt("productId");
         this.name = json.getString("name");
         this.description = json.getString("description");
         this.quantity = json.getInt("quantity");
@@ -88,7 +88,7 @@ public class Product {
     
     public JsonObject toJSON(){
          JsonObject json = Json.createObjectBuilder()
-                    .add("productId", this.productID)
+                    .add("productId", this.productId)
                     .add("name", this.name)
                     .add("description",  this.description)
                     .add("quantity", this.quantity)

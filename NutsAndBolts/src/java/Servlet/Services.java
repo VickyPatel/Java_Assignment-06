@@ -82,7 +82,7 @@ public class Services {
 
         System.out.println(name + '\t' + description + '\t' + quantity +'\t'+ id);
 
-        int result = doUpdate("UPDATE product SET name=?,description=?,quantity=? where productID=?", name, description, quantity, String.valueOf(id));
+        int result = doUpdate("UPDATE product SET name=?,description=?,quantity=? where productId=?", name, description, quantity, String.valueOf(id));
         if (result <= 0) {
             return Response.status(500).build();
         } else {
@@ -96,7 +96,7 @@ public class Services {
 
     public Response deleteById(@PathParam("id") String id) {
 
-        int result = doUpdate("DELETE FROM product where productID=? ", String.valueOf(id));
+        int result = doUpdate("DELETE FROM product where productId=? ", String.valueOf(id));
 
         if (result <= 0) {
             return Response.status(500).build();
@@ -121,7 +121,7 @@ public class Services {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 obj =  Json.createObjectBuilder()
-                .add("productID", rs.getInt("productID"))
+                .add("productIDd", rs.getInt("productId"))
                 .add("name", rs.getString("name"))
                 .add("description", rs.getString("description"))
                 .add("quantity", rs.getInt("quantity")).build();
