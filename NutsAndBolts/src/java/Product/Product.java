@@ -6,6 +6,7 @@
 
 package Product;
 
+import javax.ejb.Stateful;
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -16,6 +17,7 @@ import javax.json.JsonObject;
  *
  * @author c0633648
  */
+@Stateful
 public class Product {
     
     public int productID;
